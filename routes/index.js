@@ -1,11 +1,16 @@
-const path = require("path");
-const router = require("express").Router();
-const apiRoutes = require("./api");
+const express = require('express');
+const router = express.Router();
 
-router.use("/api", apiRoutes);
+const booksController = require("../controllers/booksController");
 
-router.use((req, res) =>
-  res.sendFile(path.join(__dirname, "../client/build/index.html"))
-);
+router.route("/books")
+    .get(booksController.findAll)
+    // .get(booksController.searchApi)
+    .post(booksController.save)
+
+router.route("/books/:id")
+    .get(booksController.findById)
+    .put(booksController.update)
+    .delete(booksController.remove)
 
 module.exports = router;
